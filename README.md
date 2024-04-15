@@ -38,7 +38,7 @@ To get started with the Contact Management System, follow these simple steps:
 
 ## Enjoy Managing Your Contacts! 🎉
 
-We hope you find this Contact Management System useful for organizing and managing your contacts efficiently. If you have any questions, feedback, or suggestions for improvement, feel free to reach out to us.
+I hope you find this Contact Management System useful for organizing and managing your contacts efficiently. If you have any questions, feedback, or suggestions for improvement, feel free to reach out to us.
 
 Happy organizing!
 
