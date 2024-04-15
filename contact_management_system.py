@@ -1,17 +1,56 @@
-def add_new_contact():
+import re
+
+
+def add_new_contact(contacts):
+    email = input("Enter contact's email: ").strip()
+
+    if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        print("Invalid email format.")
+        return
+    
+    if email in contacts:
+        print("Contact with this email already exists.")
+        return
+    
+    name = input("Enter the contact's name: ")
+    phone = input("Enter contact's phone number: ").strip()
+    if not re.match(r"\+?[1-9]\d{1,14}$", phone):
+        print("Invalid phone number format.")
+        return
+    adress = input("Enter contact's address: ").strip()
+    notes = input("Enter additional notes (optional): ").strip()
+
+    contacts[email] = {
+        'name': name, 
+        'phone': phone,
+        'address': adress,
+        'notes': notes
+    }
+
+    print(f"Contact {name} added successfully")
+
+def edit_contact(contacts):
     pass
 
-def edit_contact():
-    pass
-
-def delete_contact():
-    pass
+def delete_contact(contacts):
+    contact_del = input("Enter the email of the contact you would like to delete: ")
+    if contact_del in contacts:
+        del contacts[contact_del]
+        print(f"{contact_del} deleted successfully")
+    else:
+        print("Contact not found")
 
 def search_contact():
     pass
 
-def display_contacts():
-    pass
+def display_contacts(contacts):
+    for email, details in contacts.items():
+        name = details['name']
+        phone = details['phone']
+        address = details['address']
+        notes = details['notes']
+        
+        print(f"\nEmail: {email}\nName: {name}\nPhone: {phone}\nAddress: {address}\nNotes: {notes}")
 
 def export_contacts():
     pass
@@ -19,26 +58,8 @@ def export_contacts():
 def import_contacts():
     pass
 
-def read_contacts(filename):
-    try:
-        with open(filename, 'r') as file:
-            contacts = {}
-            for line in file:
-                try: name, number, email, adress = line.strip().split(',')
-
-                except ValueError:
-                    print(f"Error Processing line: {line.strip()}")
-            return contacts
-    except FileNotFoundError:
-        print("File not found")
-        return{}
-
-
-def contact_manager():
-    contacts = read_contacts('contacts.txt')
-
-
-contacts = {
+def main():
+    contacts = {
     "alice.brown@example.com": {
         "name": "Alice Brown",
         "phone": "+11234567890",
@@ -76,12 +97,8 @@ contacts = {
         "notes": "Neighbor."
     }
 }
-
-
-
-def main():
     while True:
-        print("Welcome to the Contact Management System! Menu:")
+        print("\nWelcome to the Contact Management System! Menu:")
         print("1. Add a new contact")
         print("2. Edit an existing contact")
         print("3. Delete a contact")
@@ -91,21 +108,21 @@ def main():
         print("7. Import contacts from a text file")
         print("8. Quit")
 
-        choice = input("Enter your selection here")
+        choice = input("Enter your selection here: ")
         if choice == '1':
-            add_new_contact()
+            add_new_contact(contacts)
         elif choice == '2':
-            edit_contact()
+            edit_contact(contacts)
         elif choice == '3':
-            delete_contact()
+            delete_contact(contacts)
         elif choice == '4':
-            search_contact()
+            search_contact(contacts)
         elif choice =='5':
-            display_contacts()
+            display_contacts(contacts)
         elif choice == '6':
-            export_contacts()
+            export_contacts(contacts)
         elif choice == '7':
-            import_contacts()
+            import_contacts(contacts)
         elif choice == '8':
             break
         else:
