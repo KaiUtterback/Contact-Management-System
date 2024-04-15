@@ -1,4 +1,5 @@
 import re
+import json
 
 
 def add_new_contact(contacts):
@@ -30,7 +31,22 @@ def add_new_contact(contacts):
     print(f"Contact {name} added successfully")
 
 def edit_contact(contacts):
-    pass
+    contact_edit = input("Enter the email of the contact you would like to edit: ")
+    if contact_edit in contacts:
+        while True:
+            print("Current details:", contacts[contact_edit])
+            category_to_edit = input("Enter a category to edit (name, phone, email, address, notes) or 'exit' to stop: ").lower()
+            if category_to_edit == 'exit':
+                break
+            elif category_to_edit in contacts[contact_edit]:
+                new_value = input(f"Enter the updated {category_to_edit}: ")
+                contacts[contact_edit][category_to_edit] = new_value
+                print(f"{category_to_edit.capitalize()} updated successfully.")
+            else:
+                print("Incorrect category, please try again.")
+    else:
+        print("Contact not found. Please check the email and try again.")
+
 
 def delete_contact(contacts):
     contact_del = input("Enter the email of the contact you would like to delete: ")
@@ -40,8 +56,23 @@ def delete_contact(contacts):
     else:
         print("Contact not found")
 
-def search_contact():
-    pass
+def search_contact(contacts):
+    search_name = input("Enter the name of the contact you would like to search for: ")
+    found = False
+
+    for email, details in contacts.items():
+        if details['name'] == search_name:
+            found = True
+            print(f"\n{search_name} details found:")
+            print(f"Name: {details['name']}")
+            print(f"Phone: {details['phone']}")
+            print(f"Email: {email}")  
+            print(f"Address: {details['address']}")
+            print(f"Notes: {details['notes']}")
+            break 
+    
+    if not found:
+        print(f"{search_name} does not exist in your contacts.\nPlease make sure you entered the name correctly and try again.")
 
 def display_contacts(contacts):
     for email, details in contacts.items():
@@ -52,51 +83,25 @@ def display_contacts(contacts):
         
         print(f"\nEmail: {email}\nName: {name}\nPhone: {phone}\nAddress: {address}\nNotes: {notes}")
 
-def export_contacts():
-    pass
+def export_contacts(contacts):
+    filename = input("Enter the filename to export contacts to (default 'contacts.json'): ")
+    if not filename:
+        filename = 'contacts.json'
+    try:
+        with open(filename, 'w') as file:
+            json.dump(contacts, file, indent=4)
+        print(f"Contacts exported successfully to {filename}.")
+    except IOError as e:
+        print(f"Failed to write to file: {e}")
 
-def import_contacts():
-    pass
+def get_contacts():
+    with open('contacts.json', 'r') as file:
+        contacts = json.load(file)
+        print(contacts)
+    return contacts
 
 def main():
-    contacts = {
-    "alice.brown@example.com": {
-        "name": "Alice Brown",
-        "phone": "+11234567890",
-        "address": "123 Cherry Lane, Springfield, USA",
-        "notes": "Met at a conference."
-    },
-    "bob.smith@example.com": {
-        "name": "Bob Smith",
-        "phone": "+10987654321",
-        "address": "456 Maple Street, South Park, USA",
-        "notes": "Colleague from work."
-    },
-    "carol.jones@example.com": {
-        "name": "Carol Jones",
-        "phone": "+1230984567",
-        "address": "789 Pine Road, Gotham, USA",
-        "notes": "Family friend."
-    },
-     "david.green@example.com": {
-        "name": "David Green",
-        "phone": "+18001234567",
-        "address": "101 Oak Street, Metropolis, USA",
-        "notes": "Gym buddy."
-    },
-    "eva.white@example.com": {
-        "name": "Eva White",
-        "phone": "+18007654321",
-        "address": "202 Birch Avenue, Smallville, USA",
-        "notes": "Met during a workshop."
-    },
-    "frank.moore@example.com": {
-        "name": "Frank Moore",
-        "phone": "+18009876543",
-        "address": "303 Cedar Blvd, Star City, USA",
-        "notes": "Neighbor."
-    }
-}
+    contacts = get_contacts()
     while True:
         print("\nWelcome to the Contact Management System! Menu:")
         print("1. Add a new contact")
@@ -104,8 +109,8 @@ def main():
         print("3. Delete a contact")
         print("4. Search for a contact")
         print("5. Display all contacts")
-        print("6. Export contacts to a text file")
-        print("7. Import contacts from a text file")
+        print("6. Export contacts to a JSON file")
+        print("7. Import contacts from a JSON file")
         print("8. Quit")
 
         choice = input("Enter your selection here: ")
@@ -126,6 +131,6 @@ def main():
         elif choice == '8':
             break
         else:
-            print("Sorry that is an incompatable selection. Please try again.")
-
+            print("Sorry that is an incompatable selection. Please try again.")\
+            
 main()
