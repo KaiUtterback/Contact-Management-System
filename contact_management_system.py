@@ -47,7 +47,6 @@ def edit_contact(contacts):
     else:
         print("Contact not found. Please check the email and try again.")
 
-
 def delete_contact(contacts):
     contact_del = input("Enter the email of the contact you would like to delete: ")
     if contact_del in contacts:
@@ -109,9 +108,8 @@ def main():
         print("3. Delete a contact")
         print("4. Search for a contact")
         print("5. Display all contacts")
-        print("6. Export contacts to a JSON file")
-        print("7. Import contacts from a JSON file")
-        print("8. Quit")
+        print("6. Save changes to a JSON file")
+        print("7. Exit")
 
         choice = input("Enter your selection here: ")
         if choice == '1':
@@ -127,8 +125,6 @@ def main():
         elif choice == '6':
             export_contacts(contacts)
         elif choice == '7':
-            import_contacts(contacts)
-        elif choice == '8':
             break
         else:
             print("Sorry that is an incompatable selection. Please try again.")\
