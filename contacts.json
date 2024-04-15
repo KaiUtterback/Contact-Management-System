@@ -34,11 +34,5 @@
         "phone": "+18009876543",
         "address": "303 Cedar Blvd, Star City, USA",
         "notes": "Neighbor."
-    },
-    "chloevg@example.com": {
-        "name": "Chloe VanGerpen",
-        "phone": "+15153503774",
-        "address": "5001 W Equestrian Place, Sioux Falls, SD",
-        "notes": "Love of my Life"
     }
 }

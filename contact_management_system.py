@@ -145,14 +145,14 @@ def save_contacts(contacts):
 def main():
     contacts = get_contacts()
     while True:
-        print("\nWelcome to the Contact Management System! Menu:")
+        print("\nWelcome to Kai's Contact Manager!:")
         print("1. Add a new contact")
         print("2. Edit an existing contact")
         print("3. Delete a contact")
         print("4. Search for a contact")
         print("5. Display all contacts")
         print("6. Save changes to a JSON file")
-        print("7. Import contacts from backup")
+        print("7. Restore contacts from backup")
         print("8. Exit")
 
         choice = input("Enter your selection here: ")
@@ -174,9 +174,17 @@ def main():
                 contacts = merge_contacts(contacts, imported_contacts)
                 print("Contacts imported successfully.")
         elif choice == '8':
+            
+            save_before_exit = input("Would you like to save changes before exiting? (yes/no): ").lower()
+            if save_before_exit == 'yes':
+                save_contacts(contacts)
+            elif save_before_exit == 'no':
+                pass  
+            else:
+                print("Invalid choice. Changes will not be saved.")
+            print("\nThanks For Using Kai's Contact Manager!\nEnjoy your day!")
             break
         else:
             print("Sorry that is an incompatible selection. Please try again.")
-
             
 main()
