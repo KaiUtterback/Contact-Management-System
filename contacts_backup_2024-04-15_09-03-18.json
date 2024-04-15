@@ -1,0 +1,44 @@
+{
+    "alice.brown@example.com": {
+        "name": "Alice Brown",
+        "phone": "+11234567890",
+        "address": "123 Cherry Lane, Springfield, USA",
+        "notes": "Met at a conference."
+    },
+    "bob.smith@example.com": {
+        "name": "Bob Smith",
+        "phone": "+10987654321",
+        "address": "456 Maple Street, South Park, USA",
+        "notes": "Colleague from work."
+    },
+    "carol.jones@example.com": {
+        "name": "Carol Jones",
+        "phone": "+1230984567",
+        "address": "789 Pine Road, Gotham, USA",
+        "notes": "Family friend."
+    },
+    "david.green@example.com": {
+        "name": "David Green",
+        "phone": "+18001234567",
+        "address": "101 Oak Street, Metropolis, USA",
+        "notes": "Gym buddy."
+    },
+    "eva.white@example.com": {
+        "name": "Eva White",
+        "phone": "+18007654321",
+        "address": "202 Birch Avenue, Smallville, USA",
+        "notes": "Met during a workshop."
+    },
+    "frank.moore@example.com": {
+        "name": "Frank Moore",
+        "phone": "+18009876543",
+        "address": "303 Cedar Blvd, Star City, USA",
+        "notes": "Neighbor."
+    },
+    "chloevg@example.com": {
+        "name": "Chloe VanGerpen",
+        "phone": "+15153503774",
+        "address": "5001 W Equestrian Place, Sioux Falls, SD",
+        "notes": "Love of my Life"
+    }
+}

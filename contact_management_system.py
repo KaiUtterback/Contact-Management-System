@@ -1,6 +1,7 @@
 import re
 import json
-
+import datetime
+import os
 
 def add_new_contact(contacts):
     email = input("Enter contact's email: ").strip()
@@ -93,11 +94,53 @@ def export_contacts(contacts):
     except IOError as e:
         print(f"Failed to write to file: {e}")
 
+def backup_contacts(contacts):
+    file_time = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+    filename = f'contacts_backup_{file_time}.json'
+    try:
+        with open(filename, 'w') as file:
+            json.dump(contacts, file, indent=4)
+        print(f"Contacts successfully backed up to {filename}.")
+    except IOError as e:
+        print(f"Failed to write to file: {e}")
+
 def get_contacts():
-    with open('contacts.json', 'r') as file:
-        contacts = json.load(file)
-        print(contacts)
+    try:
+        with open('contacts.json', 'r') as file:
+            contacts = json.load(file)
+    except FileNotFoundError:
+        contacts = {}
     return contacts
+
+def import_contacts_from_backup():
+    try:
+        backup_files = [f for f in os.listdir('.') if f.startswith('contacts_backup_') and f.endswith('.json')]
+        if not backup_files:
+            print("No backup files found.")
+            return
+
+        print("Available backup files:")
+        for i, file in enumerate(backup_files, start=1):
+            print(f"{i}. {file}")
+
+        choice = int(input("Enter the number of the backup file to import: "))
+        selected_file = backup_files[choice - 1]
+
+        with open(selected_file, 'r') as file:
+            backup_contacts = json.load(file)
+        return backup_contacts
+    except (IndexError, ValueError):
+        print("Invalid choice.")
+        return None
+    
+def merge_contacts(existing_contacts, imported_contacts):
+    existing_contacts.update(imported_contacts)
+    return existing_contacts
+
+def save_contacts(contacts):
+    export_contacts(contacts)
+    backup_contacts(contacts)
+    print("Successfully Saved Contacts")
 
 def main():
     contacts = get_contacts()
@@ -109,7 +152,8 @@ def main():
         print("4. Search for a contact")
         print("5. Display all contacts")
         print("6. Save changes to a JSON file")
-        print("7. Exit")
+        print("7. Import contacts from backup")
+        print("8. Exit")
 
         choice = input("Enter your selection here: ")
         if choice == '1':
@@ -120,13 +164,19 @@ def main():
             delete_contact(contacts)
         elif choice == '4':
             search_contact(contacts)
-        elif choice =='5':
+        elif choice == '5':
             display_contacts(contacts)
         elif choice == '6':
-            export_contacts(contacts)
+            save_contacts(contacts)
         elif choice == '7':
+            imported_contacts = import_contacts_from_backup()
+            if imported_contacts:
+                contacts = merge_contacts(contacts, imported_contacts)
+                print("Contacts imported successfully.")
+        elif choice == '8':
             break
         else:
-            print("Sorry that is an incompatable selection. Please try again.")\
+            print("Sorry that is an incompatible selection. Please try again.")
+
             
 main()
